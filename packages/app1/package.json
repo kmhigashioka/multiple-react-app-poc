@@ -1,0 +1,26 @@
+{
+  "name": "app1",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Kazuhito Higashioka <kmhigashioka@gmail.com>",
+  "homepage": "https://github.com/kmhigashioka/multiple-react-app-poc#readme",
+  "license": "ISC",
+  "main": "lib/app1.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmhigashioka/multiple-react-app-poc.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/kmhigashioka/multiple-react-app-poc/issues"
+  }
+}
