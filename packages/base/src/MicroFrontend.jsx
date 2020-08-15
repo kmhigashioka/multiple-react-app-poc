@@ -1,53 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-class MicroFrontend extends React.Component {
-  componentDidMount() {
-    const { name, host, document } = this.props;
+const MicroFrontend = ({ name, host, history }) => {
+  useEffect(() => {
     const scriptId = `micro-frontend-script-${name}`;
+    const renderMicroFrontend = () => {
+      window[`render${name}`] &&
+        window[`render${name}`](`${name}-container`, history);
+    };
 
     if (document.getElementById(scriptId)) {
-      this.renderMicroFrontend();
+      renderMicroFrontend();
       return;
     }
-
-    const appendScript = src => {
-      const script = document.createElement('script');
-      script.id = scriptId;
-      script.crossOrigin = '';
-      script.src = src;
-      script.onload = this.renderMicroFrontend;
-      document.head.appendChild(script);
-    };
 
     fetch(`${host}/asset-manifest.json`)
       .then(res => res.json())
       .then(manifest => {
-        manifest.entrypoints.forEach(p => {
-          appendScript(`${host}/${p}`);
+        const promises = Object.keys(manifest['files'])
+          .filter(key => key.endsWith('.js'))
+          .reduce((sum, key) => {
+            sum.push(
+              new Promise(resolve => {
+                const path = `${host}${manifest['files'][key]}`;
+                const script = document.createElement('script');
+                if (key === 'main.js') {
+                  script.id = scriptId;
+                }
+                script.onload = () => {
+                  resolve();
+                };
+                script.src = path;
+                document.head.appendChild(script);
+              })
+            );
+            return sum;
+          }, []);
+        Promise.allSettled(promises).then(() => {
+          renderMicroFrontend();
         });
       });
-  }
 
-  componentWillUnmount() {
-    const { name, window } = this.props;
+    return () => {
+      window[`unmount${name}`] && window[`unmount${name}`](`${name}-container`);
+    };
+  }, [name, host, history]);
 
-    window[`unmount${name}`](`${name}-container`);
-  }
-
-  renderMicroFrontend = () => {
-    const { name, window, history } = this.props;
-
-    window[`render${name}`] && window[`render${name}`](`${name}-container`, history);
-  };
-
-  render() {
-    return <main id={`${this.props.name}-container`} />;
-  }
-}
-
-MicroFrontend.defaultProps = {
-  document,
-  window,
+  return <main id={`${name}-container`} />;
 };
 
 export default MicroFrontend;
