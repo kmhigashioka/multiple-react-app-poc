@@ -16,7 +16,7 @@ const App: React.FC<AppProps> = () => (
       <meta name="description" content="" />
     </Helmet>
     <Switch>
-      <Route path="/" exact component={HomePage} />
+      <Route path="/app2" exact component={HomePage} />
       <Route component={NotFoundPage} />
     </Switch>
   </AppContext.Provider>
