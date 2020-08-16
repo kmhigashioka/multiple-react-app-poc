@@ -5,6 +5,7 @@ import { AppProps } from './types';
 import AppContext from './AppContext';
 
 import HomePage from '../HomePage/Loadable';
+import MoreRoutePage from '../MoreRoutePage/Loadable';
 import NotFoundPage from '../NotFoundPage/Loadable';
 
 const App: React.FC<AppProps> = () => (
@@ -17,6 +18,7 @@ const App: React.FC<AppProps> = () => (
     </Helmet>
     <Switch>
       <Route path="/app2" exact component={HomePage} />
+      <Route path="/app2/more-route" exact component={MoreRoutePage} />
       <Route component={NotFoundPage} />
     </Switch>
   </AppContext.Provider>

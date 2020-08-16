@@ -25,6 +25,7 @@ function App() {
         <Switch>
           <Route exact path="/app1" component={App1} />
           <Route exact path="/app2" component={App2} />
+          <Route exact path="/app2/more-route" component={App2} />
         </Switch>
       </div>
     </Router>

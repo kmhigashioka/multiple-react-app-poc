@@ -4,6 +4,7 @@
   width: 100%;
 
   main {
-    flex: 1;
+    overflow: auto;
+    width: calc(100vw - 200px);
   }
 }
